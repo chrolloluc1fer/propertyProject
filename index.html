@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="header">
+        <div class="nav">
+            <ul class="nav_bar">
+                <div class="nav_left">
+                   
+                    <li><div class="add-btn"><i class="fa fa-plus"></i></div></li>
+                    <li><div class="del_btn"><i class="fa fa-trash"></div></i></li>
+                    <li class="sort">sort</li>
+                </div>
+                <div class="nav_right">
+                    <li>sign-up</li>
+                    <li class="signup">sign-in</li>
+                </div>
+            </ul>
+        </div>
+        <img src="./real-estate_thumb_142570550_1536x1536.jpg" alt="" class="header_img">
+    </div>
+    <main class="main_content">
+        
+        
+     
+        <div class="modal">
+            <div class="property_heading">Property Details</div>
+            <textarea class="propert_name" placeholder="Name"></textarea>
+            <textarea class="propert_desc" placeholder="Description"></textarea>
+            <textarea class="propert_size" placeholder="Size"></textarea>
+        </div>
+    </main>
+   
+</body>
+<script >
+const addbtn = document.querySelector(".add-btn")
+const modal = document.querySelector(".modal")
+const p_name = document.querySelector(".propert_name");
+const p_desc = document.querySelector(".propert_desc");
+const p_size = document.querySelector(".propert_size");
+const main = document.querySelector(".main_content")
+const del = document.querySelector(".fa-trash");
+const sort = document.querySelector(".sort");
+let arr=[];
+
+addbtn.addEventListener("click",()=>{
+    modal.classList.toggle("active")
+})
+
+modal.addEventListener("keydown",(e)=>{
+    if(e.key === "Enter"){
+        makeProperty(p_name.value,p_desc.value,p_size.value)
+        p_name.value=""
+        p_desc.value=""
+        p_size.value=""
+       
+    }
+})
+del.addEventListener("click",()=>{
+    del.classList.toggle("active")
+   
+})
+function makeProperty(name,desc,size){
+    const newProperty = document.createElement("div")
+    if(name!="" && desc != "" && size != ""){
+   
+    newProperty.classList.add("property-cont")
+  
+    newProperty.innerHTML=  `<div class="property-name"><span>Name - </span>${name}</div>
+                             <div class="property-desc"><span>Description - </span>${desc}</div>
+                             <div class="property-size"><span>Size - </span>${size} <span class="size">sq-feet</span></div>`
+    main.appendChild(newProperty);
+    modal.classList.toggle("active");
+    arr.push({name:name,desc:desc,size:size});
+    }
+    else{
+        window.alert("Fill all the given areas")
+    }
+    newProperty.addEventListener("click",()=>{
+        if(del.classList.contains("active")){
+            newProperty.remove();
+        }
+    })
+    
+}
+
+sort.addEventListener("click",()=>{
+    const allticket = main.querySelectorAll(".property-cont")
+    
+    allticket.forEach(ticket=>{
+        ticket.remove();
+    })
+    arr.sort(function(a,b){
+    return a.size - b.size
+})
+    console.log(arr);
+    arr.forEach(element=>{
+        makeSortProperty(element.name,element.desc,element.size);
+    })
+    
+})
+
+function makeSortProperty(name,desc,size){
+    const newProperty = document.createElement("div")
+    
+   
+    newProperty.classList.add("property-cont")
+  
+    newProperty.innerHTML=  `<div class="property-name"><span>Name - </span>${name}</div>
+                             <div class="property-desc"><span>Description - </span>${desc}</div>
+                             <div class="property-size"><span>Size - </span>${size} <span class="size">sq-feet</span></div>`
+    main.appendChild(newProperty);
+
+
+    
+}
+
+</script>  
+</html>
+
